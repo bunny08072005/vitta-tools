@@ -58,13 +58,13 @@
 
 .ins-type-card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-md);
 }
 
 .ins-type-card.active {
   border-color: var(--accent-primary);
   background: var(--accent-soft);
-  box-shadow: var(--shadow-glow-strong);
+  box-shadow: var(--shadow-lifted);
 }
 
 .ins-type-icon {
@@ -273,7 +273,7 @@
 
 .ins-plan-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-md);
 }
 
 .ins-plan-top {
@@ -573,12 +573,12 @@
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), var(--shadow-glow-strong);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   animation: pipSlideUp 0.35s var(--ease-out);
 }
 
 [data-theme="light"] .pip-modal {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), var(--shadow-glow);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .pip-header {

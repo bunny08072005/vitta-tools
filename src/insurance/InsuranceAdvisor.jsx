@@ -157,7 +157,7 @@ export default function InsuranceAdvisor() {
           </div>
           <div className="ins-form glass-card animate-scale-in">
             <div className="ins-form-header">
-              <h3>{insuranceType === 'term' ? '🛡️ Your Details' : '🏥 Your Details'}</h3>
+              <h3>Your Details</h3>
               <button className="btn btn-ghost" onClick={handleReset} id="ins-back">← Change Type</button>
             </div>
             <div className="ins-form-fields">
@@ -329,7 +329,7 @@ export default function InsuranceAdvisor() {
                   </div>
                   <div className="ins-plan-score">
                     <div className="ins-score-circle">{plan.score}</div>
-                    <span className="ins-score-label">AI Score</span>
+                    <span className="ins-score-label">Match Score</span>
                   </div>
                 </div>
 

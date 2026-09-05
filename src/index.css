@@ -1,6 +1,6 @@
 /* ============================================
    VITTA — Design System v3
-   Vittahub Private Ltd
+   Vittahub
    Brand: Forest Green + Gold
    Supports: Dark & Light themes
    ============================================ */
@@ -61,8 +61,7 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 40px rgba(27, 107, 58, 0.1);
-  --shadow-glow-strong: 0 0 60px rgba(27, 107, 58, 0.2);
+  --shadow-lifted: 0 12px 28px rgba(0, 0, 0, 0.3);
 
   /* Borders */
   --border: 1px solid rgba(255, 255, 255, 0.06);
@@ -129,8 +128,7 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 40px rgba(27, 107, 58, 0.06);
-  --shadow-glow-strong: 0 0 60px rgba(27, 107, 58, 0.1);
+  --shadow-lifted: 0 12px 28px rgba(0, 0, 0, 0.12);
 
   /* Borders */
   --border: 1px solid rgba(0, 0, 0, 0.07);
@@ -270,29 +268,17 @@ a:hover { color: var(--accent-primary); }
   border: 1px solid rgba(27, 107, 58, 0.15);
 }
 
-/* ---------- Glass Card ---------- */
+/* ---------- Card ---------- */
 .glass-card {
-  background: var(--glass);
+  background: var(--bg-card);
   border: var(--border);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: all var(--transition-base);
-}
-
-[data-theme="light"] .glass-card {
-  background: var(--bg-card);
   box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
 }
 
 .glass-card:hover {
-  background: var(--glass-hover);
   border-color: var(--border-color);
-  box-shadow: var(--shadow-md);
-}
-
-[data-theme="light"] .glass-card:hover {
-  background: var(--bg-card);
   box-shadow: var(--shadow-md);
 }
 
@@ -450,6 +436,20 @@ a:hover { color: var(--accent-primary); }
 .badge-amber { background: var(--amber-soft); color: var(--amber); }
 .badge-purple { background: var(--purple-soft); color: var(--purple); }
 
+.soon-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  background: var(--amber-soft);
+  color: var(--amber);
+  line-height: 1.6;
+}
+
 /* ---------- Animations ---------- */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
@@ -461,40 +461,9 @@ a:hover { color: var(--accent-primary); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .animate-fade-in { animation: fadeIn 0.5s var(--ease-out) forwards; }
@@ -573,6 +542,30 @@ a:hover { color: var(--accent-primary); }
 ::selection {
   background: rgba(27, 107, 58, 0.25);
   color: var(--text-primary);
+}
+
+/* ---------- Coming Soon ---------- */
+.coming-soon {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 60px 0;
+}
+
+.coming-soon-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.coming-soon .badge { margin-bottom: 16px; }
+.coming-soon h1 { margin-bottom: 12px; }
+
+.coming-soon p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 32px;
 }
 
 /* ---------- Dropdown Select ---------- */

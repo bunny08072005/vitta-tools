@@ -22,11 +22,11 @@ export default function Navbar() {
 
   const navLinks = [
     { to: '/', label: 'Home' },
-    { to: '/ai-advisor', label: 'Vitta AI', icon: <Sparkles size={14} /> },
+    { to: '/ai-advisor', label: 'Vitta AI', icon: <Sparkles size={14} />, soon: true },
     { to: '/category/investment', label: 'Investment' },
     { to: '/category/loans', label: 'Loans' },
     { to: '/category/planning', label: 'Planning' },
-    { to: '/insurance', label: 'Insurance' },
+    { to: '/insurance', label: 'Insurance', soon: true },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -46,8 +46,9 @@ export default function Navbar() {
               className={`nav-link ${location.pathname === link.to ? 'active' : ''}`}
               id={`nav-${link.label.toLowerCase().replace(/\s/g, '-')}`}
             >
-              {link.icon && link.icon}
+              {link.icon}
               {link.label}
+              {link.soon && <span className="soon-tag">Soon</span>}
             </Link>
           ))}
 

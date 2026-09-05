@@ -18,8 +18,8 @@ export default function CategoryPage() {
 
         <div className="animate-fade-in" style={{ marginBottom: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
-            <div style={{ width: 56, height: 56, borderRadius: 'var(--radius-md)', background: category.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: '1.6rem', lineHeight: 1, filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }}>{category.emoji}</span>
+            <div style={{ width: 56, height: 56, borderRadius: 'var(--radius-md)', background: `${category.color}1a`, border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: category.color }}>
+              <category.icon size={26} strokeWidth={1.75} />
             </div>
             <div>
               <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>{category.name}</h1>

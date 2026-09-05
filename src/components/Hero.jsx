@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Calculator } from 'lucide-react';
 import { categories, getPopularCalculators } from '../data/calculators';
 import './Hero.css';
 
@@ -8,39 +8,27 @@ export default function Hero() {
 
   return (
     <section className="hero" id="hero-section">
-      {/* Background effects */}
-      <div className="hero-bg">
-        <div className="hero-gradient-orb orb-1" />
-        <div className="hero-gradient-orb orb-2" />
-        <div className="hero-gradient-orb orb-3" />
-        <div className="hero-grid" />
-      </div>
-
       <div className="container hero-content">
         {/* Badge */}
         <div className="hero-badge animate-fade-in">
-          <Sparkles size={14} />
-          AI-Powered Financial Tools
+          <Calculator size={14} />
+          26+ Free Calculators
         </div>
 
         {/* Main heading */}
         <h1 className="hero-title animate-fade-in">
-          Your Financial Clarity,
-          <span className="gradient-text"> Simplified</span>
+          Plan your money with
+          <span className="accent-text"> clarity</span>
         </h1>
 
         <p className="hero-subtitle animate-fade-in">
-          26+ free financial calculators and an AI-powered advisor to help you plan investments,
-          loans, taxes, and retirement — all in one place.
+          Calculators for SIPs, loans, taxes, and retirement, plus a guided advisor to help you
+          plan investments — free, private, and built for Indian investors.
         </p>
 
         {/* CTA buttons */}
         <div className="hero-ctas animate-fade-in">
-          <Link to="/ai-advisor" className="btn btn-primary btn-lg" id="hero-cta-ai">
-            <Sparkles size={18} />
-            Try Vitta AI Advisor
-          </Link>
-          <Link to="/category/investment" className="btn btn-secondary btn-lg" id="hero-cta-calc">
+          <Link to="/category/investment" className="btn btn-primary btn-lg" id="hero-cta-calc">
             Explore Calculators
             <ArrowRight size={18} />
           </Link>
@@ -81,8 +69,8 @@ export default function Hero() {
           <div className="category-grid stagger-children">
             {categories.map(cat => (
               <Link to={`/category/${cat.id}`} key={cat.id} className="category-card glass-card" id={`cat-${cat.id}`}>
-                <div className="category-icon" style={{ background: cat.gradient }}>
-                  <span style={{ fontSize: '1.8rem', lineHeight: 1, filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }}>{cat.emoji}</span>
+                <div className="category-icon" style={{ background: `${cat.color}1a`, color: cat.color }}>
+                  <cat.icon size={26} strokeWidth={1.75} />
                 </div>
                 <h4>{cat.name}</h4>
                 <p>{cat.description}</p>
