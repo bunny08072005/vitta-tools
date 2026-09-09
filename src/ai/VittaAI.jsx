@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Sparkles, User, Wallet, CreditCard, PiggyBank, Target, Shield, ArrowRight, ArrowLeft, RotateCcw, Info } from 'lucide-react';
-import { AdvisoryEngine } from './AdvisoryEngine';
+import { PlanningEngine } from './PlanningEngine';
 import HealthScore from './HealthScore';
 import InvestmentPlan from './InvestmentPlan';
 import WealthProjection from './WealthProjection';
@@ -62,7 +62,7 @@ export default function VittaAI() {
   const handleRiskComplete = (riskProfile) => {
     const updatedProfile = { ...profile, riskProfile, annualIncome: profile.monthlyIncome * 12 };
     setProfile(updatedProfile);
-    const engine = new AdvisoryEngine(updatedProfile);
+    const engine = new PlanningEngine(updatedProfile);
     setPlan(engine.generateFullPlan());
     setShowResults(true);
   };
@@ -146,7 +146,7 @@ export default function VittaAI() {
       case 'profile':
         return (
           <div className="wizard-fields">
-            {renderField('Your Age', profile.age, 'age', { min: 18, max: 80, hint: 'We use this to recommend the right asset allocation' })}
+            {renderField('Your Age', profile.age, 'age', { min: 18, max: 80, hint: 'We use this to estimate a sample asset allocation' })}
             {renderField('Gender', profile.gender, 'gender', {
               options: [
                 { value: 'male', label: 'Male' },
@@ -257,10 +257,10 @@ export default function VittaAI() {
         <div className="ai-header animate-fade-in">
           <div className="ai-badge">
             <Sparkles size={14} />
-            AI-Powered Advisory
+            AI-Powered Planning
           </div>
-          <h1>Vitta AI Financial Advisor</h1>
-          <p>Answer a few questions to get a personalized investment plan</p>
+          <h1>Vitta AI Financial Assistant</h1>
+          <p>Answer a few questions to get a personalized financial estimate</p>
         </div>
 
         {/* Progress */}

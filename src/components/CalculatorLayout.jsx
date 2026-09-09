@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Info } from 'lucide-react';
 import './CalculatorLayout.css';
 
 export default function CalculatorLayout({ title, description, icon: Icon, category, children }) {
@@ -26,6 +26,12 @@ export default function CalculatorLayout({ title, description, icon: Icon, categ
         <div className="calc-body animate-fade-in-up">
           {children}
         </div>
+
+        <p className="calc-tool-disclaimer">
+          <Info size={14} />
+          Educational estimate only, not investment advice. Vitta is not SEBI-registered as an
+          Investment Adviser or Research Analyst.
+        </p>
       </div>
     </div>
   );

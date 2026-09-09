@@ -22,7 +22,7 @@ export default function Navbar() {
 
   const navLinks = [
     { to: '/', label: 'Home' },
-    { to: '/ai-advisor', label: 'Vitta AI', icon: <Sparkles size={14} />, soon: true },
+    { to: '/ai-assistant', label: 'Vitta AI', icon: <Sparkles size={14} />, soon: true },
     { to: '/category/investment', label: 'Investment' },
     { to: '/category/loans', label: 'Loans' },
     { to: '/category/planning', label: 'Planning' },

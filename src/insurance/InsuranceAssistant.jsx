@@ -18,7 +18,7 @@ const defaultHealthProfile = {
   cityTier: 'tier1', familySize: 2, existingHealthCover: 0, maritalStatus: 'married',
 };
 
-export default function InsuranceAdvisor() {
+export default function InsuranceAssistant() {
   const [insuranceType, setInsuranceType] = useState(null);
   const [profile, setProfile] = useState(null);
   const [results, setResults] = useState(null);
@@ -88,7 +88,7 @@ export default function InsuranceAdvisor() {
               </div>
             </a>
 
-            <a href="https://wa.me/919000872375?text=Hi%2C%20I%27m%20interested%20in%20the%20insurance%20plan%20recommended%20by%20Vitta" target="_blank" rel="noopener noreferrer" className="pip-contact-row" id="pip-whatsapp">
+            <a href="https://wa.me/919000872375?text=Hi%2C%20I%27m%20interested%20in%20an%20insurance%20plan%20I%20found%20on%20Vitta" target="_blank" rel="noopener noreferrer" className="pip-contact-row" id="pip-whatsapp">
               <div className="pip-contact-icon" style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}>
                 <MessageCircle size={20} />
               </div>
@@ -98,7 +98,7 @@ export default function InsuranceAdvisor() {
               </div>
             </a>
 
-            <a href="mailto:pvenkatahemanth2005@gmail.com?subject=Insurance%20Inquiry%20-%20Vitta&body=Hi%2C%20I%27m%20interested%20in%20an%20insurance%20plan%20recommended%20by%20Vitta%20AI." className="pip-contact-row" id="pip-email">
+            <a href="mailto:pvenkatahemanth2005@gmail.com?subject=Insurance%20Inquiry%20-%20Vitta&body=Hi%2C%20I%27m%20interested%20in%20an%20insurance%20plan%20I%20found%20on%20Vitta%20AI." className="pip-contact-row" id="pip-email">
               <div className="pip-contact-icon" style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)' }}>
                 <Mail size={20} />
               </div>
@@ -110,8 +110,9 @@ export default function InsuranceAdvisor() {
           </div>
 
           <p className="pip-disclaimer">
-            Vitta is an advisory platform. Policies are issued by respective insurance companies.
-            Our experts will help you through the entire buying process — free of charge.
+            Vitta is an educational technology platform and does not sell insurance policies directly.
+            Policies are issued by the respective insurance companies. Our team can put you in touch
+            with a licensed partner to help with the buying process — free of charge.
           </p>
         </div>
       </div>
@@ -124,9 +125,9 @@ export default function InsuranceAdvisor() {
       <div className="insurance-page">
         <div className="container">
           <div className="ins-header animate-fade-in">
-            <div className="ins-badge"><Sparkles size={16} /> AI-Powered Insurance Advisor</div>
+            <div className="ins-badge"><Sparkles size={16} /> AI-Powered Insurance Assistant</div>
             <h1>Find Your Ideal Insurance</h1>
-            <p>Get personalized insurance recommendations based on your age, income, and family needs — powered by AI analysis.</p>
+            <p>Compare insurance plans estimated from your age, income, and family needs — powered by AI analysis.</p>
           </div>
           <div className="ins-type-selector animate-fade-in-up">
             <div className="ins-type-card glass-card" onClick={() => startFlow('term')} id="ins-type-term">
@@ -151,9 +152,9 @@ export default function InsuranceAdvisor() {
       <div className="insurance-page">
         <div className="container">
           <div className="ins-header animate-fade-in">
-            <div className="ins-badge">{insuranceType === 'term' ? <Shield size={16} /> : <Heart size={16} />}{insuranceType === 'term' ? 'Term Insurance' : 'Health Insurance'} Advisor</div>
+            <div className="ins-badge">{insuranceType === 'term' ? <Shield size={16} /> : <Heart size={16} />}{insuranceType === 'term' ? 'Term Insurance' : 'Health Insurance'} Assistant</div>
             <h1>{insuranceType === 'term' ? 'Find Your Ideal Term Plan' : 'Find Your Ideal Health Plan'}</h1>
-            <p>Tell us about yourself and we'll recommend the best plans for you</p>
+            <p>Tell us about yourself and we'll show plans that match your profile</p>
           </div>
           <div className="ins-form glass-card animate-scale-in">
             <div className="ins-form-header">
@@ -243,7 +244,7 @@ export default function InsuranceAdvisor() {
             </div>
             <div className="ins-form-actions">
               <button className="btn btn-primary btn-lg" onClick={handleAnalyze} id="ins-analyze">
-                <Sparkles size={18} /> Get AI Recommendations <ArrowRight size={18} />
+                <Sparkles size={18} /> Compare Plans <ArrowRight size={18} />
               </button>
             </div>
           </div>
@@ -261,7 +262,7 @@ export default function InsuranceAdvisor() {
         <div className="ins-results animate-fade-in">
           <div className="ins-results-header">
             <Sparkles size={24} style={{ color: 'var(--accent-glow)', marginBottom: 10 }} />
-            <h1>{isTerm ? 'Your Term Insurance Recommendations' : 'Your Health Insurance Recommendations'}</h1>
+            <h1>{isTerm ? 'Your Term Insurance Estimate' : 'Your Health Insurance Estimate'}</h1>
             <p className="ins-results-subtitle">
               Personalized for <strong>{profile.age}-year-old {profile.gender}</strong> earning <strong>{formatINR(profile.monthlyIncome)}/month</strong>
               {isTerm && profile.dependents > 0 && <> with <strong>{profile.dependents} dependent{profile.dependents > 1 ? 's' : ''}</strong></>}
@@ -274,7 +275,7 @@ export default function InsuranceAdvisor() {
           <div className="ins-summary-card glass-card">
             <div className="ins-summary-grid">
               <div className="ins-summary-item">
-                <div className="ins-summary-label">Recommended Cover</div>
+                <div className="ins-summary-label">Estimated Cover</div>
                 <div className="ins-summary-value accent">
                   {isTerm && results.isAdequatelyCovered ? 'Already Covered ✓' : formatINR(results.recommendedCover)}
                 </div>
@@ -308,7 +309,7 @@ export default function InsuranceAdvisor() {
             <Award size={22} />
             {isTerm && results.isAdequatelyCovered
               ? `${results.plans.length} Plans You Could Still Consider`
-              : `Top ${results.plans.length} Recommended Plans`}
+              : `Top ${results.plans.length} Matching Plans`}
           </h3>
 
           <div className="ins-plans-grid">

@@ -22,7 +22,7 @@ export default function AssetAllocationCalculator() {
   };
 
   return (
-    <CalculatorLayout title="Asset Allocation" description="Get recommended portfolio split based on your profile" icon={Layers} category="planning">
+    <CalculatorLayout title="Asset Allocation" description="Estimate a sample portfolio split using standard age and risk-profile formulas" icon={Layers} category="planning">
       <div className="calc-inputs">
         <SliderInput label="Your Age" value={age} onChange={setAge} min={18} max={70} id="aa-age" />
         <div className="input-group">

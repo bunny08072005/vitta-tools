@@ -1,10 +1,12 @@
 /* ============================================
-   Vitta AI — Advisory Engine v2
-   Rule-based financial planning engine
-   100% client-side, zero data sent anywhere
+   Vitta AI — Planning Engine v2
+   Rule-based educational financial estimation engine
+   100% client-side, zero data sent anywhere.
+   Output is illustrative only and is not personalized
+   investment advice.
    ============================================ */
 
-export class AdvisoryEngine {
+export class PlanningEngine {
   constructor(profile) {
     this.profile = profile;
     // Include other income in total monthly income
@@ -66,10 +68,10 @@ export class AdvisoryEngine {
       hasDependents: dependents > 0,
       status: gap <= 0 ? 'adequate' : gap < idealCover * 0.3 ? 'partial' : 'critical',
       recommendation: dependents === 0
-        ? 'No dependents — life insurance is less critical, but a basic term plan is still recommended'
+        ? 'No dependents — life insurance need is lower, but a basic term plan is commonly considered'
         : gap > 0
-          ? `Get additional ₹${Math.round(gap).toLocaleString('en-IN')} term life insurance (${multiplier}x your annual income)`
-          : 'Life insurance coverage is adequate ✓',
+          ? `Estimated additional term life cover: ₹${Math.round(gap).toLocaleString('en-IN')} (${multiplier}x your annual income)`
+          : 'Life insurance coverage is adequate based on this estimate ✓',
     };
   }
 
@@ -101,6 +103,11 @@ export class AdvisoryEngine {
   }
 
   // === INSTRUMENT MAPPING ===
+  // NOTE: Naming specific fund categories/schemes tailored to a user's personal
+  // financial inputs can read as personalized investment advice. Before this
+  // feature is enabled for real users, keep instrument names generic/illustrative
+  // (e.g. "index fund", "tax-saving fund") or gate this behind proper SEBI
+  // Investment Adviser registration.
   mapToInstruments(allocation) {
     const { age } = this.profile;
     const annualIncome = this.totalMonthlyIncome * 12;
@@ -445,7 +452,7 @@ export class AdvisoryEngine {
     return actions;
   }
 
-  // === FULL ADVISORY REPORT ===
+  // === FULL PLAN SUMMARY ===
   generateFullPlan() {
     const savings = this.calculateSavingsRate();
     const emergency = this.assessEmergencyFund();

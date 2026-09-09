@@ -16,8 +16,8 @@ export default function Footer() {
             </div>
             <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginBottom: 8, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Plan · Grow · Protect</p>
             <p className="footer-tagline">
-              Free financial calculators and a guided advisor to help you plan
-              investments, loans, taxes, and retirement.
+              Free financial calculators and a guided planning tool to help you estimate
+              investments, loans, taxes, and retirement outcomes.
             </p>
             <div className="footer-contact-items">
               <a href="mailto:pvenkatahemanth2005@gmail.com" className="footer-contact-link">
@@ -48,7 +48,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul>
-              <li><Link to="/ai-advisor">Vitta AI Advisor <span className="soon-tag">Soon</span></Link></li>
+              <li><Link to="/ai-assistant">Vitta AI Assistant <span className="soon-tag">Soon</span></Link></li>
               <li><Link to="/calculator/sip-calculator">SIP Calculator</Link></li>
               <li><Link to="/calculator/emi-calculator">EMI Calculator</Link></li>
               <li><Link to="/calculator/tax-calculator">Tax Calculator</Link></li>
@@ -82,8 +82,10 @@ export default function Footer() {
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} Vittahub. All rights reserved.</p>
           <p className="footer-disclaimer">
-            Disclaimer: All calculators provide estimates for educational purposes only.
-            Please consult a certified financial advisor before making investment decisions.
+            <strong>Disclaimer:</strong> Vitta is an educational technology platform providing financial estimation
+            tools. It is not registered with SEBI as an Investment Adviser or Research Analyst. The content and
+            calculations provided do not constitute investment advice or financial recommendations. Please consult
+            a SEBI-registered investment adviser before making investment decisions.
           </p>
         </div>
       </div>

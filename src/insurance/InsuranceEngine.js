@@ -1,6 +1,8 @@
 /* ============================================
-   Vitta Insurance — Recommendation Engine
-   AI-powered insurance matching algorithm
+   Vitta Insurance — Comparison Engine
+   AI-powered insurance plan matching algorithm.
+   Output is illustrative and for comparison only —
+   not a personalized insurance recommendation.
    100% client-side
    ============================================ */
 

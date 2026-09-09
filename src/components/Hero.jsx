@@ -22,8 +22,8 @@ export default function Hero() {
         </h1>
 
         <p className="hero-subtitle animate-fade-in">
-          Calculators for SIPs, loans, taxes, and retirement, plus a guided advisor to help you
-          plan investments — free, private, and built for Indian investors.
+          Calculators for SIPs, loans, taxes, and retirement, plus a guided planning tool to help you
+          estimate your investments — free, private, and built for Indian investors.
         </p>
 
         {/* CTA buttons */}
