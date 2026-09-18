@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { calculateTax, formatCurrency } from '../../utils/calculations';
 import { Receipt } from 'lucide-react';
 
@@ -23,11 +24,11 @@ export default function TaxCalculator() {
   return (
     <CalculatorLayout title="Tax Calculator" description="Compare Old vs New regime — FY 2025-26" icon={Receipt} category="insurance-tax">
       <div className="calc-inputs">
-        <SliderInput label="Gross Annual Income" value={income} onChange={setIncome} min={250000} max={50000000} step={10000} prefix="₹" id="tax-income" />
+        <SliderInput label="Gross Annual Income" value={income} onChange={setIncome} min={250000} max={250000000} step={10000} prefix="₹" id="tax-income" />
         <SliderInput label="Section 80C (Old Regime)" value={ded80C} onChange={setDed80C} min={0} max={150000} step={1000} prefix="₹" id="tax-80c" />
         <SliderInput label="Section 80D Health Insurance" value={ded80D} onChange={setDed80D} min={0} max={100000} step={1000} prefix="₹" id="tax-80d" />
-        <SliderInput label="HRA Exemption" value={hra} onChange={setHra} min={0} max={500000} step={1000} prefix="₹" id="tax-hra" />
-        <SliderInput label="Other Deductions" value={other} onChange={setOther} min={0} max={500000} step={1000} prefix="₹" id="tax-other" />
+        <SliderInput label="HRA Exemption" value={hra} onChange={setHra} min={0} max={2500000} step={1000} prefix="₹" id="tax-hra" />
+        <SliderInput label="Other Deductions" value={other} onChange={setOther} min={0} max={2500000} step={1000} prefix="₹" id="tax-other" />
       </div>
       <div className="calc-results">
         <div style={{ padding: 16, background: results.betterRegime === 'New' ? 'var(--accent-soft)' : 'var(--amber-soft)', borderRadius: 'var(--radius-md)', textAlign: 'center', marginBottom: 16 }}>
@@ -51,6 +52,12 @@ export default function TaxCalculator() {
             <p className="mono" style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--accent-glow)' }}>{formatCurrency(results.new.total)}</p>
           </div>
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateTaxReport } = await import('../../utils/pdfReport');
+            await generateTaxReport({ income, ded80C, ded80D, hra, other, results, forName });
+          }}
+        />
         <ChartDisplay type="bar" data={chartData} height={180} />
       </div>
     </CalculatorLayout>

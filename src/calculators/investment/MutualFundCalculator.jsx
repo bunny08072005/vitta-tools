@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { lumpsumFutureValue, calculateCAGR } from '../../utils/calculations';
 import { BarChart3 } from 'lucide-react';
 
@@ -26,8 +27,8 @@ export default function MutualFundCalculator() {
   return (
     <CalculatorLayout title="Mutual Fund Returns" description="Calculate mutual fund investment returns with CAGR" icon={BarChart3} category="investment">
       <div className="calc-inputs">
-        <SliderInput label="Amount Invested" value={invested} onChange={setInvested} min={1000} max={10000000} step={1000} prefix="₹" id="mf-invested" />
-        <SliderInput label="Current Value" value={currentVal} onChange={setCurrentVal} min={1000} max={50000000} step={1000} prefix="₹" id="mf-current" />
+        <SliderInput label="Amount Invested" value={invested} onChange={setInvested} min={1000} max={50000000} step={1000} prefix="₹" id="mf-invested" />
+        <SliderInput label="Current Value" value={currentVal} onChange={setCurrentVal} min={1000} max={250000000} step={1000} prefix="₹" id="mf-current" />
         <SliderInput label="Investment Period" value={years} onChange={setYears} min={1} max={30} suffix=" yrs" id="mf-years" />
       </div>
       <div className="calc-results">
@@ -36,6 +37,12 @@ export default function MutualFundCalculator() {
           <ResultDisplay label="Total Returns" value={results.gains} />
           <ResultDisplay label="Absolute Return %" value={results.gainPercent} type="percent" />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateMutualFundReport } = await import('../../utils/pdfReport');
+            await generateMutualFundReport({ invested, currentVal, years, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

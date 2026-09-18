@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { calculateEMI } from '../../utils/calculations';
 import { Calculator } from 'lucide-react';
 
@@ -25,7 +26,7 @@ export default function EMICalculator() {
   return (
     <CalculatorLayout title="EMI Calculator" description="Calculate monthly EMI for any loan" icon={Calculator} category="loans">
       <div className="calc-inputs">
-        <SliderInput label="Loan Amount" value={principal} onChange={setPrincipal} min={10000} max={50000000} step={10000} prefix="₹" id="emi-principal" />
+        <SliderInput label="Loan Amount" value={principal} onChange={setPrincipal} min={10000} max={250000000} step={10000} prefix="₹" id="emi-principal" />
         <SliderInput label="Interest Rate (p.a.)" value={rate} onChange={setRate} min={1} max={20} step={0.1} suffix="%" id="emi-rate" />
         <SliderInput label="Loan Tenure" value={years} onChange={setYears} min={1} max={30} suffix=" yrs" id="emi-years" />
       </div>
@@ -35,6 +36,12 @@ export default function EMICalculator() {
           <ResultDisplay label="Total Interest" value={results.interest} />
           <ResultDisplay label="Total Payment" value={results.total} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateEMIReport } = await import('../../utils/pdfReport');
+            await generateEMIReport({ principal, rate, years, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

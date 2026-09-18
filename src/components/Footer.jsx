@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ExternalLink, Globe, User } from 'lucide-react';
+import { Mail, Phone, MapPin, ExternalLink, User, PlaySquare, Camera } from 'lucide-react';
 import { categories } from '../data/calculators';
 import './Footer.css';
 
@@ -20,8 +20,8 @@ export default function Footer() {
               investments, loans, taxes, and retirement outcomes.
             </p>
             <div className="footer-contact-items">
-              <a href="mailto:pvenkatahemanth2005@gmail.com" className="footer-contact-link">
-                <Mail size={14} /> pvenkatahemanth2005@gmail.com
+              <a href="mailto:vittahub.in@gmail.com" className="footer-contact-link">
+                <Mail size={14} /> vittahub.in@gmail.com
               </a>
               <a href="tel:+919000872375" className="footer-contact-link">
                 <Phone size={14} /> +91 9000872375
@@ -61,18 +61,23 @@ export default function Footer() {
             <h4>Connect</h4>
             <ul>
               <li>
-                <a href="https://videoportfolio-five.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <a href="https://pvhemanth.vercel.app/" target="_blank" rel="noopener noreferrer">
                   <ExternalLink size={13} /> Portfolio
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <Globe size={13} /> GitHub
                 </a>
               </li>
               <li>
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
                   <User size={13} /> LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href="https://www.youtube.com/@vittahub-in" target="_blank" rel="noopener noreferrer">
+                  <PlaySquare size={13} /> YouTube
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/vittahub.in/" target="_blank" rel="noopener noreferrer">
+                  <Camera size={13} /> Instagram
                 </a>
               </li>
             </ul>

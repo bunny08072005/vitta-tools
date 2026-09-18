@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { stepUpSipFutureValue, stepUpSipTotalInvested } from '../../utils/calculations';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -26,7 +27,7 @@ export default function StepUpSIPCalculator() {
   return (
     <CalculatorLayout title="Step-up SIP Calculator" description="SIP with annual step-up percentage increase" icon={ArrowUpRight} category="investment">
       <div className="calc-inputs">
-        <SliderInput label="Starting Monthly SIP" value={monthly} onChange={setMonthly} min={500} max={200000} step={500} prefix="₹" id="stepup-monthly" />
+        <SliderInput label="Starting Monthly SIP" value={monthly} onChange={setMonthly} min={500} max={1000000} step={500} prefix="₹" id="stepup-monthly" />
         <SliderInput label="Annual Step-up" value={stepUp} onChange={setStepUp} min={1} max={50} step={1} suffix="%" id="stepup-percent" />
         <SliderInput label="Expected Return (p.a.)" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" id="stepup-rate" />
         <SliderInput label="Time Period" value={years} onChange={setYears} min={1} max={30} suffix=" yrs" id="stepup-years" />
@@ -37,6 +38,12 @@ export default function StepUpSIPCalculator() {
           <ResultDisplay label="Total Invested" value={results.invested} />
           <ResultDisplay label="Wealth Gained" value={results.gains} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateStepUpSIPReport } = await import('../../utils/pdfReport');
+            await generateStepUpSIPReport({ monthly, rate, years, stepUp, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

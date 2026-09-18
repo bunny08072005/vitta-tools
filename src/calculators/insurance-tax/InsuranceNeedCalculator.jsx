@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { insuranceNeed } from '../../utils/calculations';
 import { Shield } from 'lucide-react';
 
@@ -26,11 +27,11 @@ export default function InsuranceNeedCalculator() {
   return (
     <CalculatorLayout title="Insurance Need" description="Calculate how much life insurance you need" icon={Shield} category="insurance-tax">
       <div className="calc-inputs">
-        <SliderInput label="Annual Income" value={income} onChange={setIncome} min={100000} max={10000000} step={50000} prefix="₹" id="ins-income" />
+        <SliderInput label="Annual Income" value={income} onChange={setIncome} min={100000} max={50000000} step={50000} prefix="₹" id="ins-income" />
         <SliderInput label="Years to Replace Income" value={yearsReplace} onChange={setYearsReplace} min={5} max={30} id="ins-years" />
-        <SliderInput label="Outstanding Liabilities" value={liabilities} onChange={setLiabilities} min={0} max={50000000} step={100000} prefix="₹" id="ins-liab" />
-        <SliderInput label="Future Costs (Education etc.)" value={futureCosts} onChange={setFutureCosts} min={0} max={20000000} step={100000} prefix="₹" id="ins-future" />
-        <SliderInput label="Existing Life Cover" value={existing} onChange={setExisting} min={0} max={50000000} step={100000} prefix="₹" id="ins-existing" />
+        <SliderInput label="Outstanding Liabilities" value={liabilities} onChange={setLiabilities} min={0} max={250000000} step={100000} prefix="₹" id="ins-liab" />
+        <SliderInput label="Future Costs (Education etc.)" value={futureCosts} onChange={setFutureCosts} min={0} max={100000000} step={100000} prefix="₹" id="ins-future" />
+        <SliderInput label="Existing Life Cover" value={existing} onChange={setExisting} min={0} max={250000000} step={100000} prefix="₹" id="ins-existing" />
       </div>
       <div className="calc-results">
         <div className="result-grid">
@@ -38,6 +39,12 @@ export default function InsuranceNeedCalculator() {
           <ResultDisplay label="Income Replacement" value={results.incomeReplacement} />
           <ResultDisplay label="Existing Cover" value={existing} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateInsuranceNeedReport } = await import('../../utils/pdfReport');
+            await generateInsuranceNeedReport({ income, yearsReplace, liabilities, futureCosts, existing, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

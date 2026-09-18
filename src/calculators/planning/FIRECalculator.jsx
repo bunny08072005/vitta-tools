@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
+import ReportButton from '../../components/ReportButton';
 import { fireNumber, goalSIP } from '../../utils/calculations';
 import { Flame } from 'lucide-react';
 
@@ -30,9 +31,9 @@ export default function FIRECalculator() {
   return (
     <CalculatorLayout title="FIRE Calculator" description="Financial Independence, Retire Early" icon={Flame} category="planning">
       <div className="calc-inputs">
-        <SliderInput label="Annual Expenses" value={annualExpense} onChange={setAnnualExpense} min={100000} max={5000000} step={10000} prefix="₹" id="fire-expense" />
+        <SliderInput label="Annual Expenses" value={annualExpense} onChange={setAnnualExpense} min={100000} max={25000000} step={10000} prefix="₹" id="fire-expense" />
         <SliderInput label="Safe Withdrawal Rate" value={withdrawalRate} onChange={setWithdrawalRate} min={2} max={6} step={0.5} suffix="%" id="fire-swr" />
-        <SliderInput label="Current Savings/Investments" value={currentSavings} onChange={setCurrentSavings} min={0} max={50000000} step={50000} prefix="₹" id="fire-savings" />
+        <SliderInput label="Current Savings/Investments" value={currentSavings} onChange={setCurrentSavings} min={0} max={250000000} step={50000} prefix="₹" id="fire-savings" />
         <SliderInput label="Expected Return (p.a.)" value={rate} onChange={setRate} min={5} max={15} step={0.5} suffix="%" id="fire-rate" />
       </div>
       <div className="calc-results">
@@ -43,6 +44,12 @@ export default function FIRECalculator() {
           <ResultDisplay label="Est. Years to FIRE" value={results.yearsToFire} type="number" />
           <ResultDisplay label="Required Monthly SIP" value={results.monthlySIP} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateFIREReport } = await import('../../utils/pdfReport');
+            await generateFIREReport({ annualExpense, withdrawalRate, currentSavings, rate, results, forName });
+          }}
+        />
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.5, marginTop: 16 }}>
           💡 FIRE Number = Annual Expenses ÷ Safe Withdrawal Rate. Once your investments reach this number,
           you can live off the returns without depleting your corpus.

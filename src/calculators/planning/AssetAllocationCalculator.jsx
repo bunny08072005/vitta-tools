@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { Layers } from 'lucide-react';
 
 export default function AssetAllocationCalculator() {
@@ -42,6 +43,12 @@ export default function AssetAllocationCalculator() {
           <div className="result-item"><span className="result-label">Gold</span><span className="result-value mono" style={{color:'#f59e0b'}}>{allocation.gold}%</span></div>
           <div className="result-item"><span className="result-label">REITs</span><span className="result-value mono" style={{color:'#22c55e'}}>{allocation.reit}%</span></div>
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateAssetAllocationReport } = await import('../../utils/pdfReport');
+            await generateAssetAllocationReport({ age, risk, allocation, forName });
+          }}
+        />
       </div>
     </CalculatorLayout>
   );

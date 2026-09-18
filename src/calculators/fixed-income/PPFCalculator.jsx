@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { ppfCalculation } from '../../utils/calculations';
 import { Coins } from 'lucide-react';
 
@@ -36,6 +37,12 @@ export default function PPFCalculator() {
           <ResultDisplay label="Total Invested" value={results.totalInvested} />
           <ResultDisplay label="Interest Earned" value={results.interest} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generatePPFReport } = await import('../../utils/pdfReport');
+            await generatePPFReport({ annual, rate, years, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={200} />
         <ChartDisplay type="line" data={lineData} height={200} />
       </div>

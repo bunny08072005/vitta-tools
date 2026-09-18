@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { sipFutureValue, formatCurrency, sipProjection } from '../../utils/calculations';
 import { TrendingUp } from 'lucide-react';
 
@@ -35,7 +36,7 @@ export default function SIPCalculator() {
   return (
     <CalculatorLayout title="SIP Calculator" description="Calculate returns on your Systematic Investment Plan" icon={TrendingUp} category="investment">
       <div className="calc-inputs">
-        <SliderInput label="Monthly Investment" value={monthly} onChange={setMonthly} min={500} max={200000} step={500} prefix="₹" id="sip-monthly" />
+        <SliderInput label="Monthly Investment" value={monthly} onChange={setMonthly} min={100} max={1000000} step={100} prefix="₹" id="sip-monthly" />
         <SliderInput label="Expected Return Rate (p.a.)" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" id="sip-rate" />
         <SliderInput label="Time Period" value={years} onChange={setYears} min={1} max={40} suffix=" yrs" id="sip-years" />
       </div>
@@ -45,6 +46,12 @@ export default function SIPCalculator() {
           <ResultDisplay label="Invested Amount" value={results.invested} />
           <ResultDisplay label="Est. Returns" value={results.gains} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateSIPReport } = await import('../../utils/pdfReport');
+            await generateSIPReport({ monthly, rate, years, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={220} />
         <ChartDisplay type="line" data={lineData} height={200} />
       </div>

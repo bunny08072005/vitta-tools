@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { calculateEMI } from '../../utils/calculations';
 import { Car } from 'lucide-react';
 
@@ -27,7 +28,7 @@ export default function CarLoanCalculator() {
   return (
     <CalculatorLayout title="Car Loan Calculator" description="Calculate car loan EMI and total cost" icon={Car} category="loans">
       <div className="calc-inputs">
-        <SliderInput label="Car Price" value={price} onChange={setPrice} min={100000} max={10000000} step={10000} prefix="₹" id="car-price" />
+        <SliderInput label="Car Price" value={price} onChange={setPrice} min={100000} max={50000000} step={10000} prefix="₹" id="car-price" />
         <SliderInput label="Down Payment" value={down} onChange={v => setDown(Math.min(v, price))} min={0} max={price} step={10000} prefix="₹" id="car-down" />
         <SliderInput label="Interest Rate (p.a.)" value={rate} onChange={setRate} min={5} max={18} step={0.1} suffix="%" id="car-rate" />
         <SliderInput label="Tenure" value={years} onChange={setYears} min={1} max={7} suffix=" yrs" id="car-years" />
@@ -39,6 +40,12 @@ export default function CarLoanCalculator() {
           <ResultDisplay label="Total Interest" value={results.interest} />
           <ResultDisplay label="Total Cost of Car" value={results.totalCost} className="full-width" />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateCarLoanReport } = await import('../../utils/pdfReport');
+            await generateCarLoanReport({ price, down, rate, years, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

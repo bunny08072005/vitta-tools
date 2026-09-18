@@ -1,0 +1,62 @@
+.report-download {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.report-download-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.report-download-row {
+  display: flex;
+  gap: 10px;
+}
+
+.report-download-row .report-salutation {
+  flex: 0 0 92px;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.report-download-row .report-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-download-row .btn {
+  white-space: nowrap;
+}
+
+.report-spin {
+  animation: report-spin 0.8s linear infinite;
+}
+
+@keyframes report-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .report-download-row {
+    flex-wrap: wrap;
+  }
+
+  .report-download-row .report-salutation {
+    flex: 0 0 88px;
+  }
+
+  .report-download-row .report-name {
+    flex: 1 1 auto;
+  }
+
+  .report-download-row .btn {
+    flex: 1 1 100%;
+  }
+}

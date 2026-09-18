@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
+import ReportButton from '../../components/ReportButton';
 import { calculateHRA, formatCurrency } from '../../utils/calculations';
 import { Building2 } from 'lucide-react';
 
@@ -16,9 +17,9 @@ export default function HRACalculator() {
   return (
     <CalculatorLayout title="HRA Calculator" description="Calculate HRA exemption for tax saving" icon={Building2} category="insurance-tax">
       <div className="calc-inputs">
-        <SliderInput label="Basic Salary (Monthly)" value={basic} onChange={setBasic} min={5000} max={500000} step={1000} prefix="₹" id="hra-basic" />
-        <SliderInput label="HRA Received (Monthly)" value={hraReceived} onChange={setHraReceived} min={0} max={200000} step={500} prefix="₹" id="hra-received" />
-        <SliderInput label="Rent Paid (Monthly)" value={rent} onChange={setRent} min={0} max={200000} step={500} prefix="₹" id="hra-rent" />
+        <SliderInput label="Basic Salary (Monthly)" value={basic} onChange={setBasic} min={5000} max={2500000} step={1000} prefix="₹" id="hra-basic" />
+        <SliderInput label="HRA Received (Monthly)" value={hraReceived} onChange={setHraReceived} min={0} max={1000000} step={500} prefix="₹" id="hra-received" />
+        <SliderInput label="Rent Paid (Monthly)" value={rent} onChange={setRent} min={0} max={1000000} step={500} prefix="₹" id="hra-rent" />
         <div className="toggle-group">
           <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-secondary)' }}>Metro City?</label>
           <label className="toggle-switch">
@@ -32,6 +33,12 @@ export default function HRACalculator() {
           <ResultDisplay label="HRA Exemption (Annual)" value={results.exemption} className="highlight full-width" />
           <ResultDisplay label="Taxable HRA" value={results.taxableHRA} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateHRAReport } = await import('../../utils/pdfReport');
+            await generateHRAReport({ basic, hraReceived, rent, metro, results, forName });
+          }}
+        />
         <div style={{ marginTop: 20 }}>
           <h4 style={{ fontSize: '0.9rem', marginBottom: 12 }}>Exemption Calculation (Min of 3)</h4>
           {[

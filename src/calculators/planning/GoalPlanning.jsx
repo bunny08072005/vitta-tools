@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { goalSIP, inflationAdjusted } from '../../utils/calculations';
 import { Goal } from 'lucide-react';
 
@@ -27,7 +28,7 @@ export default function GoalPlanning() {
   return (
     <CalculatorLayout title="Goal Planning" description="How much to invest monthly to reach your financial goal" icon={Goal} category="planning">
       <div className="calc-inputs">
-        <SliderInput label="Goal Amount (Today's Value)" value={target} onChange={setTarget} min={50000} max={100000000} step={50000} prefix="₹" id="goal-target" />
+        <SliderInput label="Goal Amount (Today's Value)" value={target} onChange={setTarget} min={50000} max={500000000} step={50000} prefix="₹" id="goal-target" />
         <SliderInput label="Time to Goal" value={years} onChange={setYears} min={1} max={30} suffix=" yrs" id="goal-years" />
         <SliderInput label="Expected Return (p.a.)" value={rate} onChange={setRate} min={1} max={20} step={0.5} suffix="%" id="goal-rate" />
         <SliderInput label="Inflation Rate" value={inflation} onChange={setInflation} min={0} max={12} step={0.5} suffix="%" id="goal-inflation" />
@@ -38,6 +39,12 @@ export default function GoalPlanning() {
           <ResultDisplay label="Future Goal (Inflation Adj.)" value={results.inflatedTarget} />
           <ResultDisplay label="Total Investment" value={results.totalInvested} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateGoalPlanningReport } = await import('../../utils/pdfReport');
+            await generateGoalPlanningReport({ target, years, rate, inflation, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

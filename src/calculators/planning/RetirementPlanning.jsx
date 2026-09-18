@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { retirementCorpus, goalSIP } from '../../utils/calculations';
 import { Clock } from 'lucide-react';
 
@@ -34,7 +35,7 @@ export default function RetirementPlanning() {
       <div className="calc-inputs">
         <SliderInput label="Current Age" value={age} onChange={setAge} min={18} max={60} id="ret-age" />
         <SliderInput label="Retirement Age" value={retireAge} onChange={setRetireAge} min={age + 1} max={75} id="ret-retire-age" />
-        <SliderInput label="Monthly Expenses (Today)" value={expense} onChange={setExpense} min={5000} max={500000} step={1000} prefix="₹" id="ret-expense" />
+        <SliderInput label="Monthly Expenses (Today)" value={expense} onChange={setExpense} min={5000} max={2500000} step={1000} prefix="₹" id="ret-expense" />
         <SliderInput label="Inflation Rate" value={inflation} onChange={setInflation} min={2} max={12} step={0.5} suffix="%" id="ret-inflation" />
         <SliderInput label="Pre-Retirement Return" value={preReturn} onChange={setPreReturn} min={5} max={20} step={0.5} suffix="%" id="ret-pre" />
         <SliderInput label="Post-Retirement Return" value={postReturn} onChange={setPostReturn} min={3} max={12} step={0.5} suffix="%" id="ret-post" />
@@ -45,6 +46,12 @@ export default function RetirementPlanning() {
           <ResultDisplay label="Monthly SIP Required" value={results.monthlySIP} />
           <ResultDisplay label="Future Monthly Expense" value={results.futureExpense} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateRetirementReport } = await import('../../utils/pdfReport');
+            await generateRetirementReport({ age, retireAge, expense, inflation, preReturn, postReturn, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={240} />
       </div>
     </CalculatorLayout>

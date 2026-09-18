@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { swpCalculation } from '../../utils/calculations';
 import { ArrowDownRight } from 'lucide-react';
 
@@ -22,8 +23,8 @@ export default function SWPCalculator() {
   return (
     <CalculatorLayout title="SWP Calculator" description="Plan systematic withdrawals from your investments" icon={ArrowDownRight} category="investment">
       <div className="calc-inputs">
-        <SliderInput label="Total Corpus" value={corpus} onChange={setCorpus} min={100000} max={100000000} step={100000} prefix="₹" id="swp-corpus" />
-        <SliderInput label="Monthly Withdrawal" value={withdrawal} onChange={setWithdrawal} min={1000} max={500000} step={1000} prefix="₹" id="swp-monthly" />
+        <SliderInput label="Total Corpus" value={corpus} onChange={setCorpus} min={100000} max={500000000} step={100000} prefix="₹" id="swp-corpus" />
+        <SliderInput label="Monthly Withdrawal" value={withdrawal} onChange={setWithdrawal} min={1000} max={2500000} step={1000} prefix="₹" id="swp-monthly" />
         <SliderInput label="Expected Return (p.a.)" value={rate} onChange={setRate} min={1} max={20} step={0.5} suffix="%" id="swp-rate" />
         <SliderInput label="Period" value={years} onChange={setYears} min={1} max={40} suffix=" yrs" id="swp-years" />
       </div>
@@ -33,6 +34,12 @@ export default function SWPCalculator() {
           <ResultDisplay label="Total Withdrawn" value={results.totalWithdrawn} />
           <ResultDisplay label="Initial Corpus" value={corpus} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateSWPReport } = await import('../../utils/pdfReport');
+            await generateSWPReport({ corpus, withdrawal, rate, years, results, forName });
+          }}
+        />
         {results.data.length > 1 && <ChartDisplay type="line" data={lineData} height={220} />}
       </div>
     </CalculatorLayout>

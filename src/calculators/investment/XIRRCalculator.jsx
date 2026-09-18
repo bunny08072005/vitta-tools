@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CalculatorLayout from '../../components/CalculatorLayout';
 import ResultDisplay from '../../components/ResultDisplay';
+import ReportButton from '../../components/ReportButton';
 import { calculateXIRR } from '../../utils/calculations';
 import { RefreshCw, Plus, Trash2 } from 'lucide-react';
 
@@ -44,6 +45,12 @@ export default function XIRRCalculator() {
         <div className="result-grid">
           <ResultDisplay label="XIRR" value={Math.round(xirr * 100) / 100} type="percent" className="highlight full-width" />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateXIRRReport } = await import('../../utils/pdfReport');
+            await generateXIRRReport({ cashflows, xirr, forName });
+          }}
+        />
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.5, marginTop: 16 }}>
           XIRR accounts for the timing of each cash flow, giving you the true annualized return.
           Negative amounts = money invested, Positive = money received back.

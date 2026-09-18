@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import CalculatorLayout from '../../components/CalculatorLayout';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { formatCurrency } from '../../utils/calculations';
 import { Wallet, Plus, Trash2 } from 'lucide-react';
 
@@ -74,6 +75,12 @@ export default function NetWorthTracker() {
           <div className="result-item"><span className="result-label">Total Assets</span><span className="result-value mono" style={{ color: 'var(--green)' }}>{formatCurrency(totalAssets)}</span></div>
           <div className="result-item"><span className="result-label">Total Liabilities</span><span className="result-value mono" style={{ color: 'var(--red)' }}>{formatCurrency(totalLiab)}</span></div>
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateNetWorthReport } = await import('../../utils/pdfReport');
+            await generateNetWorthReport({ assets, liabilities, totalAssets, totalLiab, netWorth, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={220} />
       </div>
     </CalculatorLayout>

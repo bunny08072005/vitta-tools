@@ -98,13 +98,13 @@ export default function InsuranceAssistant() {
               </div>
             </a>
 
-            <a href="mailto:pvenkatahemanth2005@gmail.com?subject=Insurance%20Inquiry%20-%20Vitta&body=Hi%2C%20I%27m%20interested%20in%20an%20insurance%20plan%20I%20found%20on%20Vitta%20AI." className="pip-contact-row" id="pip-email">
+            <a href="mailto:vittahub.in@gmail.com?subject=Insurance%20Inquiry%20-%20Vitta&body=Hi%2C%20I%27m%20interested%20in%20an%20insurance%20plan%20I%20found%20on%20Vitta%20AI." className="pip-contact-row" id="pip-email">
               <div className="pip-contact-icon" style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)' }}>
                 <Mail size={20} />
               </div>
               <div>
                 <h4>Email Us</h4>
-                <p>pvenkatahemanth2005@gmail.com</p>
+                <p>vittahub.in@gmail.com</p>
               </div>
             </a>
           </div>
@@ -409,7 +409,7 @@ export default function InsuranceAssistant() {
               <button className="btn btn-primary btn-lg" onClick={() => setPipPlan({ logo: '', insurer: 'Vitta', name: 'Expert Consultation', annualPremium: 0, monthlyPremium: 0 })} id="ins-cta-contact">
                 <Phone size={18} /> Contact Our Experts
               </button>
-              <a href="mailto:pvenkatahemanth2005@gmail.com" className="btn btn-secondary btn-lg" id="ins-cta-email">
+              <a href="mailto:vittahub.in@gmail.com" className="btn btn-secondary btn-lg" id="ins-cta-email">
                 <Mail size={18} /> Email Us
               </a>
             </div>

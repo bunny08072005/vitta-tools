@@ -3,6 +3,7 @@ import CalculatorLayout from '../../components/CalculatorLayout';
 import SliderInput from '../../components/SliderInput';
 import ResultDisplay from '../../components/ResultDisplay';
 import ChartDisplay from '../../components/ChartDisplay';
+import ReportButton from '../../components/ReportButton';
 import { npsCalculation } from '../../utils/calculations';
 import { Award } from 'lucide-react';
 
@@ -22,7 +23,7 @@ export default function NPSCalculator() {
   return (
     <CalculatorLayout title="NPS Calculator" description="Plan your National Pension System investments" icon={Award} category="fixed-income">
       <div className="calc-inputs">
-        <SliderInput label="Monthly Contribution" value={monthly} onChange={setMonthly} min={500} max={100000} step={500} prefix="₹" id="nps-monthly" />
+        <SliderInput label="Monthly Contribution" value={monthly} onChange={setMonthly} min={500} max={500000} step={500} prefix="₹" id="nps-monthly" />
         <SliderInput label="Expected Return (p.a.)" value={rate} onChange={setRate} min={5} max={14} step={0.5} suffix="%" id="nps-rate" />
         <SliderInput label="Years till Retirement" value={years} onChange={setYears} min={1} max={40} suffix=" yrs" id="nps-years" />
         <SliderInput label="Annuity %" value={annuity} onChange={setAnnuity} min={40} max={100} suffix="%" id="nps-annuity" />
@@ -35,6 +36,12 @@ export default function NPSCalculator() {
           <ResultDisplay label="Total Invested" value={results.totalInvested} />
           <ResultDisplay label="Wealth Gained" value={results.wealthGained} />
         </div>
+        <ReportButton
+          onGenerate={async (forName) => {
+            const { generateNPSReport } = await import('../../utils/pdfReport');
+            await generateNPSReport({ monthly, rate, years, annuity, results, forName });
+          }}
+        />
         <ChartDisplay type="doughnut" data={chartData} height={220} />
       </div>
     </CalculatorLayout>

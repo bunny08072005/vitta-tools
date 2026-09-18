@@ -57,7 +57,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4>Email</h4>
-                  <a href="mailto:pvenkatahemanth2005@gmail.com">pvenkatahemanth2005@gmail.com</a>
+                  <a href="mailto:vittahub.in@gmail.com">vittahub.in@gmail.com</a>
                 </div>
               </div>
 
@@ -83,7 +83,7 @@ export default function Contact() {
             </div>
 
             <a
-              href="https://videoportfolio-five.vercel.app/"
+              href="https://pvhemanth.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="portfolio-link glass-card"

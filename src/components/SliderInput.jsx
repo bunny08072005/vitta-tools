@@ -1,23 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SliderInput({ label, value, onChange, min, max, step = 1, prefix = '', suffix = '', id }) {
   const [isFocused, setIsFocused] = useState(false);
+  const [text, setText] = useState(String(value));
+
+  useEffect(() => {
+    if (!isFocused) {
+      setText(String(value));
+    }
+  }, [value, isFocused]);
 
   const handleSlider = (e) => {
     onChange(Number(e.target.value));
   };
 
   const handleInput = (e) => {
-    const val = e.target.value.replace(/[^0-9.]/g, '');
-    if (val === '' || val === '.') {
-      onChange(min);
-      return;
-    }
-    const num = Number(val);
-    onChange(Math.min(max, Math.max(min, num)));
+    const raw = e.target.value.replace(/[^0-9.]/g, '');
+    setText(raw);
+    if (raw === '' || raw === '.') return;
+    const num = Number(raw);
+    if (!Number.isNaN(num)) onChange(num);
   };
 
-  const percentage = ((value - min) / (max - min)) * 100;
+  const handleFocus = (e) => {
+    setIsFocused(true);
+    e.target.select();
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    const num = Number(text);
+    const clamped = Math.min(max, Math.max(min, Number.isNaN(num) ? min : num));
+    onChange(clamped);
+    setText(String(clamped));
+  };
+
+  const clampedValue = Math.min(max, Math.max(min, value));
+  const percentage = ((clampedValue - min) / (max - min)) * 100;
 
   return (
     <div className="slider-input-group" id={id}>
@@ -27,11 +46,12 @@ export default function SliderInput({ label, value, onChange, min, max, step = 1
           {prefix && <span className="slider-prefix">{prefix}</span>}
           <input
             type="text"
+            inputMode="decimal"
             className="slider-number-input"
-            value={value}
+            value={text}
             onChange={handleInput}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
           {suffix && <span className="slider-suffix">{suffix}</span>}
         </div>
@@ -42,7 +62,7 @@ export default function SliderInput({ label, value, onChange, min, max, step = 1
         min={min}
         max={max}
         step={step}
-        value={value}
+        value={clampedValue}
         onChange={handleSlider}
         style={{
           background: `linear-gradient(to right, var(--accent-primary) 0%, var(--accent-primary) ${percentage}%, var(--bg-elevated) ${percentage}%, var(--bg-elevated) 100%)`
