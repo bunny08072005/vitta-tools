@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Calculator } from 'lucide-react';
+import { ArrowRight, CheckCircle, Calculator, FileText, ChevronDown } from 'lucide-react';
 import { categories, getPopularCalculators } from '../data/calculators';
+import ReportShowcase from './ReportShowcase';
 import './Hero.css';
 
 export default function Hero() {
@@ -26,6 +27,13 @@ export default function Hero() {
           estimate your investments — free, private, and built for Indian investors.
         </p>
 
+        {/* PDF reports highlight — jumps to the showcase section below */}
+        <a href="#reports" className="hero-report-pill animate-fade-in" id="hero-report-pill">
+          <FileText size={18} />
+          <span><strong>Every calculator</strong> comes with a personalized PDF report</span>
+          <ChevronDown size={16} />
+        </a>
+
         {/* CTA buttons */}
         <div className="hero-ctas animate-fade-in">
           <Link to="/category/investment" className="btn btn-primary btn-lg" id="hero-cta-calc">
@@ -43,6 +51,9 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
+        {/* PDF reports showcase */}
+        <ReportShowcase />
 
         {/* Popular calculators */}
         <div className="hero-popular">

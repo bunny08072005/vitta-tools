@@ -47,6 +47,32 @@
   line-height: 1.7;
 }
 
+.hero-report-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 24px;
+  padding: 9px 16px 9px 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+  background: var(--gold-soft);
+  border: 1px solid rgba(197, 165, 90, 0.35);
+  border-radius: var(--radius-full);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.hero-report-pill:hover {
+  color: var(--text-primary);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.hero-report-pill svg { flex-shrink: 0; color: var(--gold); }
+.hero-report-pill strong { font-weight: 600; }
+
 .hero-ctas {
   display: flex;
   align-items: center;
@@ -179,4 +205,11 @@
   .hero { padding-top: calc(var(--nav-height) + 32px); }
   .popular-grid { grid-template-columns: 1fr; }
   .hero-trust { gap: 10px; }
+}
+
+@media (max-width: 480px) {
+  .hero-report-pill {
+    text-align: left;
+    border-radius: var(--radius-lg);
+  }
 }

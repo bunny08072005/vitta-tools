@@ -22,7 +22,7 @@ export default function ReportButton({ onGenerate, label = 'Download PDF Report'
     <div className="report-download">
       <div className="report-download-label">
         <FileText size={15} />
-        <span>Get a personalized PDF report with the full year-by-year breakdown</span>
+        <span>Get a personalized PDF report with your inputs, key figures and a detailed breakdown where it applies</span>
       </div>
       <div className="report-download-row">
         <select

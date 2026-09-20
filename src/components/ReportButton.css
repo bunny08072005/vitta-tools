@@ -8,10 +8,16 @@
 
 .report-download-label {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   font-size: 0.85rem;
   color: var(--text-secondary);
+}
+
+/* The label can wrap to two lines; keep the icon full-size and level with the first line */
+.report-download-label svg {
+  flex-shrink: 0;
+  margin-top: 3px;
 }
 
 .report-download-row {

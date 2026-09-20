@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getCategoryById, getCalculatorsByCategory } from '../data/calculators';
+import ReportBanner from '../components/ReportBanner';
 
 export default function CategoryPage() {
   const { categoryId } = useParams();
@@ -16,7 +17,7 @@ export default function CategoryPage() {
           <ArrowLeft size={18} /> Home
         </Link>
 
-        <div className="animate-fade-in" style={{ marginBottom: 40 }}>
+        <div className="animate-fade-in" style={{ marginBottom: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
             <div style={{ width: 56, height: 56, borderRadius: 'var(--radius-md)', background: `${category.color}1a`, border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: category.color }}>
               <category.icon size={26} strokeWidth={1.75} />
@@ -27,6 +28,8 @@ export default function CategoryPage() {
             </div>
           </div>
         </div>
+
+        <ReportBanner />
 
         <div className="stagger-children" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
           {calcs.map(calc => (
