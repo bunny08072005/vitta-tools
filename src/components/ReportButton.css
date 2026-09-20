@@ -22,6 +22,7 @@
 
 .report-download-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -31,12 +32,15 @@
   cursor: pointer;
 }
 
+/* The basis is wide enough for the "Name (Optional)" placeholder, so the field is never
+   squeezed narrower than that; when the button doesn't fit beside it, it wraps below. */
 .report-download-row .report-name {
-  flex: 1;
+  flex: 1 1 170px;
   min-width: 0;
 }
 
 .report-download-row .btn {
+  flex: 1 1 auto;
   white-space: nowrap;
 }
 
@@ -47,22 +51,4 @@
 @keyframes report-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-@media (max-width: 640px) {
-  .report-download-row {
-    flex-wrap: wrap;
-  }
-
-  .report-download-row .report-salutation {
-    flex: 0 0 88px;
-  }
-
-  .report-download-row .report-name {
-    flex: 1 1 auto;
-  }
-
-  .report-download-row .btn {
-    flex: 1 1 100%;
-  }
 }
