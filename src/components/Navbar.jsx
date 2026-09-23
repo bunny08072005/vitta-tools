@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sparkles, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Compass } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
@@ -22,7 +22,7 @@ export default function Navbar() {
 
   const navLinks = [
     { to: '/', label: 'Home' },
-    { to: '/ai-assistant', label: 'Vitta AI', icon: <Sparkles size={14} />, soon: true },
+    { to: '/financial-plan', label: 'Financial Plan', icon: <Compass size={14} />, isNew: true },
     { to: '/category/investment', label: 'Investment' },
     { to: '/category/loans', label: 'Loans' },
     { to: '/category/planning', label: 'Planning' },
@@ -49,6 +49,7 @@ export default function Navbar() {
               {link.icon}
               {link.label}
               {link.soon && <span className="soon-tag">Soon</span>}
+              {link.isNew && <span className="new-tag">New</span>}
             </Link>
           ))}
 

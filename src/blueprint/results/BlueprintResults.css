@@ -1,0 +1,271 @@
+/* ============================================
+   Vitta Financial Blueprint — results styles
+   ============================================ */
+
+.bp-results-header { position: relative; text-align: center; margin-bottom: 40px; padding-top: 8px; }
+
+.bp-results-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 260px;
+  max-width: 90vw;
+  background: radial-gradient(ellipse at center, rgba(27, 107, 58, 0.22), rgba(197, 165, 90, 0.08) 55%, transparent 75%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bp-sparkle { color: var(--accent-glow); margin-bottom: 10px; }
+.bp-results-header h1 { margin-bottom: 6px; }
+.bp-results-subtitle { color: var(--text-muted); margin-bottom: 16px; font-size: 1.05rem; }
+.bp-results-subtitle strong { color: var(--text-secondary); font-weight: 550; }
+
+.bp-results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 1120px;
+  margin: 0 auto 28px;
+}
+
+.bp-results-grid > * { animation: fadeInUp 0.4s var(--ease-out) forwards; opacity: 0; }
+.bp-results-grid > *:nth-child(1) { animation-delay: 0ms; }
+.bp-results-grid > *:nth-child(2) { animation-delay: 60ms; }
+.bp-results-grid > *:nth-child(3) { animation-delay: 120ms; }
+.bp-results-grid > *:nth-child(4) { animation-delay: 180ms; }
+.bp-results-grid > *:nth-child(5) { animation-delay: 240ms; }
+.bp-results-grid > *:nth-child(6) { animation-delay: 300ms; }
+.bp-results-grid > *:nth-child(7) { animation-delay: 360ms; }
+.bp-results-grid > *:nth-child(8) { animation-delay: 420ms; }
+
+/* Full-width cards inside the 2-col grid */
+#bp-goals-breakdown, #bp-wealth-projection, #bp-tax-efficiency, #bp-action-plan, #bp-cash-flow { grid-column: 1 / -1; }
+
+.bp-results-grid .glass-card { padding: 24px; }
+.bp-results-grid h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+.bp-goals-sub { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
+
+/* Shared stat grid, used by cash flow / projection / tax / insurance cards */
+.bp-proj-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+.bp-proj-stat { padding: 10px 8px; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.04); text-align: center; }
+.bp-proj-stat-label { font-size: 0.62rem; color: var(--text-muted); display: block; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
+.bp-proj-stat-value { font-size: 0.95rem; font-weight: 650; letter-spacing: -0.02em; }
+
+/* === Health Score gauge === */
+#bp-health-score {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(27, 107, 58, 0.2);
+}
+
+#bp-health-score::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--gold));
+}
+
+.bp-hs-gauge { position: relative; width: 180px; height: 140px; margin: 0 auto; }
+.bp-hs-canvas { width: 180px; height: 180px; position: absolute; top: -8px; left: 0; }
+.bp-hs-center { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); text-align: center; }
+.bp-hs-number { font-size: 2.2rem; font-weight: 800; display: block; line-height: 1; letter-spacing: -0.03em; }
+.bp-hs-grade { font-size: 0.75rem; font-weight: 700; display: block; margin-top: 1px; }
+.bp-hs-label { font-size: 0.7rem; color: var(--text-muted); display: block; margin-top: 1px; }
+.bp-hs-breakdown { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.bp-hs-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+.bp-hs-row-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 450; }
+.bp-hs-row-score { font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); }
+.bp-hs-row-max { color: var(--text-muted); font-weight: 400; }
+.bp-hs-bar { height: 4px; background: var(--glass); border-radius: 2px; overflow: hidden; }
+.bp-hs-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s var(--ease-out); }
+
+/* === Cash Flow === */
+.bp-cf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.bp-cf-stat { display: flex; flex-direction: column; gap: 3px; }
+.bp-cf-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
+.bp-cf-value { font-size: 1rem; font-weight: 650; color: var(--text-primary); letter-spacing: -0.02em; }
+.bp-cf-divider { height: 1px; background: var(--border-color); margin: 16px 0; }
+.bp-cf-verdict { margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; line-height: 1.5; }
+.bp-cf-verdict-good { background: var(--green-soft); color: var(--green); }
+.bp-cf-verdict-bad { background: var(--amber-soft); color: var(--amber); }
+
+/* === Goals breakdown === */
+.bp-goals-list { display: flex; flex-direction: column; gap: 14px; }
+.bp-goal-row { padding: 14px 16px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); }
+.bp-goal-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 10px; }
+.bp-goal-row-name { display: flex; align-items: center; gap: 8px; font-size: 0.92rem; font-weight: 600; color: var(--text-primary); }
+.bp-goal-priority { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.bp-goal-badge { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; padding: 3px 10px; border-radius: var(--radius-full); border: 1px solid currentColor; white-space: nowrap; }
+.bp-goal-badge.ok { color: var(--green); border-color: var(--green); background: var(--green-soft); }
+.bp-goal-badge.warn { color: var(--amber); border-color: var(--amber); background: var(--amber-soft); }
+.bp-goal-row-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 10px; }
+.bp-goal-row-stats > div { display: flex; flex-direction: column; gap: 2px; }
+.bp-goal-stat-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.bp-goal-stat-value { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+.bp-goal-bar { height: 5px; background: var(--glass); border-radius: 3px; overflow: hidden; }
+.bp-goal-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s var(--ease-out); }
+
+/* === Allocation === */
+.bp-alloc-instruments { margin-top: 16px; }
+.bp-alloc-instruments h4 { font-size: 0.82rem; margin-bottom: 10px; color: var(--text-muted); font-weight: 500; }
+.bp-alloc-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-color); gap: 12px; }
+.bp-alloc-row:last-child { border-bottom: none; }
+.bp-alloc-row-name { font-size: 0.82rem; font-weight: 500; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bp-alloc-row-pct { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+
+/* === Tax efficiency table === */
+.bp-tax-table { display: flex; flex-direction: column; margin-top: 6px; }
+.bp-tax-tr { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 0.7fr; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--border-color); align-items: center; }
+.bp-tax-tr:last-child { border-bottom: none; }
+.bp-tax-th { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); font-weight: 600; }
+.bp-tax-tr:not(.bp-tax-th) span { font-size: 0.85rem; color: var(--text-secondary); }
+.bp-tax-bold { font-weight: 600; color: var(--text-primary) !important; }
+.bp-tax-portfolio { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+.bp-tax-portfolio h4 { font-size: 0.88rem; margin-bottom: 4px; }
+.bp-tax-disclaimer { display: flex; gap: 8px; margin-top: 16px; padding: 12px 14px; background: var(--glass); border-radius: var(--radius-sm); font-size: 0.76rem; color: var(--text-muted); line-height: 1.55; }
+
+/* === Insurance === */
+.bp-ins-section { margin-bottom: 20px; }
+.bp-ins-section:last-child { margin-bottom: 0; }
+.bp-ins-section-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.bp-ins-section-top h4 { font-size: 0.92rem; font-weight: 600; }
+
+/* === Action plan === */
+.bp-actions-list { display: flex; flex-direction: column; gap: 12px; }
+.bp-action-row { padding: 16px; background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-color); border-left: 3px solid; }
+.bp-action-row-inner { display: flex; gap: 12px; align-items: flex-start; }
+.bp-action-icon { width: 36px; height: 36px; min-width: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+.bp-action-body { flex: 1; }
+.bp-action-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.bp-action-title-row h4 { font-size: 0.9rem; }
+.bp-action-tag { font-size: 0.65rem; padding: 2px 8px; border-radius: var(--radius-full); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.bp-action-body p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+.bp-action-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--accent-glow); margin-top: 8px; font-weight: 500; }
+
+/* === Report / paywall teaser === */
+.bp-report-teaser {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px;
+  overflow: hidden;
+  border-color: rgba(197, 165, 90, 0.25);
+}
+
+.bp-report-teaser-glow {
+  position: absolute;
+  top: -140px;
+  right: -100px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(197, 165, 90, 0.16), rgba(27, 107, 58, 0.12) 45%, transparent 70%);
+  filter: blur(4px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bp-report-teaser-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.bp-report-teaser-copy h3 { font-size: 1.6rem; margin: 10px 0 10px; }
+.bp-report-teaser-copy p { font-size: 0.95rem; line-height: 1.6; }
+.bp-report-teaser-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 20px 0 0; }
+.bp-report-teaser-features li { display: flex; align-items: center; gap: 9px; font-size: 0.88rem; color: var(--text-secondary); }
+.bp-report-teaser-features svg { color: var(--accent-glow); min-width: 15px; }
+
+/* Pricing card — the "make it look worth ₹99" moment */
+.bp-price-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 28px 24px;
+  background: linear-gradient(160deg, var(--bg-card), var(--bg-elevated));
+  border: 1px solid rgba(197, 165, 90, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(197, 165, 90, 0.08);
+}
+
+.bp-price-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: var(--gold-soft);
+  color: var(--gold);
+  border: 1px solid rgba(197, 165, 90, 0.35);
+  margin-bottom: 10px;
+  animation: bp-badge-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes bp-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(197, 165, 90, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(197, 165, 90, 0); }
+}
+
+.bp-price-tag { display: flex; align-items: baseline; gap: 10px; line-height: 1; }
+.bp-price-strike {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 2px;
+}
+.bp-price-free {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--accent-glow), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.bp-price-now {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.bp-price-sub { font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 20px; line-height: 1.4; }
+
+.bp-price-input { width: 100%; margin-bottom: 10px; text-align: center; }
+.bp-price-btn { width: 100%; }
+
+.bp-report-teaser-error { display: block; margin-top: 10px; font-size: 0.8rem; color: var(--red); }
+
+@media (max-width: 860px) {
+  .bp-report-teaser-grid { grid-template-columns: 1fr; }
+  .bp-report-teaser { padding: 28px 22px; }
+}
+
+.bp-spin { animation: bp-spin 0.8s linear infinite; }
+@keyframes bp-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .bp-results-grid { grid-template-columns: 1fr; }
+  .bp-proj-stats, .bp-cf-grid { grid-template-columns: repeat(2, 1fr); }
+  .bp-goal-row-stats { grid-template-columns: repeat(2, 1fr); }
+  .bp-tax-tr { grid-template-columns: 1.4fr 1fr 1fr; }
+  .bp-tax-tr span:nth-child(4), .bp-tax-tr span:nth-child(5) { display: none; }
+}

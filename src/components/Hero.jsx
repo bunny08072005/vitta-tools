@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Calculator, FileText, ChevronDown } from 'lucide-react';
+import { ArrowRight, CheckCircle, Calculator, FileText, ChevronDown, Compass } from 'lucide-react';
 import { categories, getPopularCalculators } from '../data/calculators';
 import ReportShowcase from './ReportShowcase';
+import BlueprintBanner from './BlueprintBanner';
 import './Hero.css';
 
 export default function Hero() {
@@ -36,7 +37,11 @@ export default function Hero() {
 
         {/* CTA buttons */}
         <div className="hero-ctas animate-fade-in">
-          <Link to="/category/investment" className="btn btn-primary btn-lg" id="hero-cta-calc">
+          <Link to="/financial-plan" className="btn btn-primary btn-lg" id="hero-cta-blueprint">
+            <Compass size={18} />
+            Get Your Financial Blueprint
+          </Link>
+          <Link to="/category/investment" className="btn btn-secondary btn-lg" id="hero-cta-calc">
             Explore Calculators
             <ArrowRight size={18} />
           </Link>
@@ -51,6 +56,9 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
+        {/* Financial Blueprint promo */}
+        <BlueprintBanner />
 
         {/* PDF reports showcase */}
         <ReportShowcase />

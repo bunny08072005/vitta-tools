@@ -5,9 +5,13 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('vitta-theme') || 'dark';
+      // Light is the default for first-time visitors — matches the blocking
+      // inline script in index.html that sets data-theme before first paint,
+      // so there's no flash between the two. Once someone picks dark, it
+      // sticks (read back from localStorage) until they switch back.
+      return localStorage.getItem('vitta-theme') || 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {

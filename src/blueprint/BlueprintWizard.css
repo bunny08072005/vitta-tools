@@ -1,0 +1,301 @@
+/* ============================================
+   Vitta Financial Blueprint — wizard styles
+   Namespaced `.bp-*` so this page never depends
+   on (or clashes with) src/ai/VittaAI.css, which
+   isn't loaded on this route.
+   ============================================ */
+
+.bp-page {
+  padding-top: calc(var(--nav-height) + 32px);
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+.bp-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 36px;
+  padding-top: 8px;
+}
+
+.bp-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 260px;
+  max-width: 90vw;
+  background: radial-gradient(ellipse at center, rgba(27, 107, 58, 0.22), rgba(197, 165, 90, 0.08) 55%, transparent 75%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent-glow);
+  background: var(--accent-soft);
+  border: 1px solid rgba(27, 107, 58, 0.15);
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bp-header h1 { margin-bottom: 6px; }
+.bp-header p { font-size: 1.1rem; color: var(--text-muted); }
+
+/* Restored-draft banner */
+.bp-draft-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  padding: 11px 16px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(27, 107, 58, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.bp-draft-banner svg { color: var(--accent-glow); min-width: 16px; }
+
+.bp-draft-banner-action {
+  margin-left: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent-glow);
+  cursor: pointer;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+/* Progress bar */
+.bp-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-bottom: 32px;
+  position: relative;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 16px;
+}
+
+.bp-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 1;
+  cursor: default;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+.bp-step:not(:disabled) { cursor: pointer; }
+.bp-step:disabled { cursor: default; }
+.bp-step:focus-visible { outline: 2px solid var(--accent-glow); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+.bp-step-dot {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border: 1.5px solid var(--border-color);
+  transition: all var(--transition-base);
+}
+
+.bp-step.active .bp-step-dot { background: var(--accent-primary); color: white; border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(27, 107, 58, 0.18); }
+.bp-step.completed .bp-step-dot { background: var(--green); color: white; border-color: var(--green); }
+
+.bp-step-label { font-size: 0.78rem; font-weight: 500; color: var(--text-muted); white-space: nowrap; }
+.bp-step.active .bp-step-label { color: var(--accent-glow); }
+.bp-step.completed .bp-step-label { color: var(--green); }
+
+.bp-progress-line {
+  position: absolute;
+  top: 16px;
+  left: 32px;
+  right: 32px;
+  height: 2px;
+  background: var(--glass);
+  z-index: 0;
+}
+
+.bp-progress-fill { height: 100%; background: var(--accent-primary); transition: width var(--transition-slow); border-radius: 1px; }
+
+/* Card */
+.bp-card {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 36px;
+  overflow: hidden;
+}
+
+.bp-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--gold));
+}
+
+.bp-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.bp-card-header h3 { font-size: 1.35rem; margin-bottom: 4px; }
+.bp-subtitle { font-size: 0.95rem; color: var(--text-muted); }
+
+.bp-step-counter {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 3px 8px;
+  background: var(--glass);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.bp-step-intro { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: -6px; }
+
+/* Fields */
+.bp-fields { display: flex; flex-direction: column; gap: 18px; }
+.bp-field { display: flex; flex-direction: column; gap: 5px; }
+.bp-field label { font-size: 1rem; font-weight: 500; color: var(--text-secondary); }
+.bp-required { color: var(--red); margin-left: 3px; }
+
+.bp-input-wrap { position: relative; }
+.bp-input-prefix, .bp-input-suffix {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.bp-input-prefix { left: 12px; }
+.bp-input-suffix { right: 12px; }
+
+.bp-field-hint { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+.bp-field-preview { font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-glow); font-weight: 500; letter-spacing: -0.01em; }
+
+.bp-live-summary {
+  margin-top: 4px;
+  padding: 10px 14px;
+  background: var(--glass);
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+  border-left: 2px solid rgba(27, 107, 58, 0.3);
+}
+
+.bp-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Repeatable lists (portfolio entries, goals) */
+.bp-repeatable { display: flex; flex-direction: column; gap: 14px; }
+.bp-repeatable-empty { font-size: 0.88rem; color: var(--text-muted); padding: 4px 0; }
+
+.bp-repeatable-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--glass);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.bp-repeatable-row-body { flex: 1; min-width: 0; }
+
+.bp-repeatable-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.bp-repeatable-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: 2px;
+}
+.bp-repeatable-remove:hover { color: var(--red); border-color: var(--red); background: var(--red-soft); }
+
+.bp-repeatable-add { align-self: flex-start; }
+
+/* Retirement goal — always-present, locked card */
+.bp-goal-locked {
+  padding: 16px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(27, 107, 58, 0.15);
+  border-radius: var(--radius-md);
+}
+
+.bp-goal-locked-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+
+.bp-goal-locked-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--accent-primary);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .bp-progress { gap: 12px; overflow-x: auto; justify-content: flex-start; padding-bottom: 8px; }
+  .bp-step-label { display: none; }
+  .bp-card { padding: 20px; }
+  .bp-repeatable-grid { grid-template-columns: 1fr; }
+}

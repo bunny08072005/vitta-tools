@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -8,6 +9,7 @@ import CategoryPage from './pages/CategoryPage';
 import CalculatorPage from './pages/CalculatorPage';
 import ComingSoon from './components/ComingSoon';
 import Contact from './components/Contact';
+import BlueprintWizard from './blueprint/BlueprintWizard';
 import './App.css';
 
 function ScrollToTop() {
@@ -33,6 +35,7 @@ function App() {
         <main style={{ flex: 1 }}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/financial-plan" element={<BlueprintWizard />} />
             <Route path="/ai-assistant" element={<ComingSoon title="Vitta AI Assistant" description="We're still testing and fine-tuning the underlying calculations to make sure the estimates are accurate. Check back soon." />} />
             <Route path="/category/:categoryId" element={<CategoryPage />} />
             <Route path="/calculator/:slug" element={<CalculatorPage />} />
@@ -41,6 +44,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <Analytics />
       </BrowserRouter>
     </ThemeProvider>
   );

@@ -142,8 +142,16 @@ function addFooter(doc) {
   );
   doc.text('vittahub.in  ·  vittahub.in@gmail.com  ·  +91 9000872375', MARGIN, y + 9.5);
 
+  // doc.__footerStamp is an opaque per-document marker, not a param on this
+  // shared helper — see generateBlueprintReport(). It's undefined for every
+  // other report this file generates, so this is a no-op everywhere else.
+  // It exists so a paid PDF carries its purchase receipt on every page: not
+  // a bypass-proofing measure (nothing client-side can be that), but a real
+  // deterrent against freely redistributing a paid copy once it's stamped
+  // with the transaction that paid for it.
   const pageNum = doc.internal.getCurrentPageInfo().pageNumber;
-  doc.text(`Page ${pageNum}`, pageWidth - MARGIN, y + 9.5, { align: 'right' });
+  const rightText = doc.__footerStamp ? `${doc.__footerStamp}  ·  Page ${pageNum}` : `Page ${pageNum}`;
+  doc.text(rightText, pageWidth - MARGIN, y + 9.5, { align: 'right' });
 }
 
 function addSectionHeading(doc, y, text) {
@@ -1031,4 +1039,193 @@ export async function generateHRAReport({ basic, hraReceived, rent, metro, resul
       bold: [1],
     },
   });
+}
+
+/* ============================================
+   Vitta Financial Blueprint — premium multi-section report
+   Unlike every report above (one buildReport() call, one table),
+   this report chains many sections together. addDataTable/
+   addKeyValueTable already paginate their own rows and stamp a
+   footer on every page they touch (proven by the loan amortization
+   / tax reports above); ensureSpace() only needs to guard the few
+   section headings / stat-cards from being orphaned at the very
+   bottom of a page.
+   ============================================ */
+
+function ensureSpace(doc, y, needed) {
+  const pageHeight = doc.internal.pageSize.getHeight();
+  if (y + needed > pageHeight - 24) {
+    addFooter(doc);
+    doc.addPage();
+    return 20;
+  }
+  return y;
+}
+
+// Action-plan descriptions and user-typed goal names are free text that can
+// contain a ₹ — unlike every number elsewhere in this file (which already
+// goes through formatCurrency()'s "Rs." formatting), these strings are built
+// as plain text shared with the on-screen cards, where ₹ renders fine via
+// HTML/CSS. jsPDF's built-in Helvetica has no ₹ glyph: left in, it doesn't
+// just show as a garbled character, it throws off autoTable's text-wrapping
+// for the rest of the string too. Sanitize any free text at this PDF
+// boundary rather than pushing PDF-specific formatting into the shared
+// engine or wizard input.
+const pdfSafeText = (text) => (typeof text === 'string' ? text.replace(/₹/g, 'Rs. ') : text);
+
+export async function generateBlueprintReport(plan, forName, receipt) {
+  const {
+    profile, healthScore, savings, emergency, goalsAnalysis, goalsTax,
+    overallAllocation, instruments, projection, lifeInsurance, healthInsurance,
+    actions, portfolioTax,
+  } = plan;
+
+  const logo = await loadLogo();
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  // Paid copies carry their Razorpay payment id in the footer of every page
+  // (see addFooter). Free/launch-period copies (receipt undefined) are
+  // unstamped — there's nothing to trace, and nothing to imply otherwise.
+  if (receipt?.paymentId) doc.__footerStamp = `Receipt ${pdfSafeText(String(receipt.paymentId))}`;
+
+  let y = addHeader(doc, {
+    title: 'Financial Blueprint Report',
+    subtitle: 'A complete, goal-based financial plan, generated using the Vitta Financial Blueprint tool.',
+    forName: forName?.trim(),
+  }, logo);
+
+  // Executive summary
+  y = ensureSpace(doc, y, 40);
+  y = addStatCards(doc, y, [
+    { label: 'Financial Health Score', value: `${healthScore.score}/100 · ${healthScore.grade}`, highlight: true },
+    { label: 'Required Monthly SIP', value: formatCurrency(goalsAnalysis.totalRequiredSIP) },
+    { label: 'Available Surplus', value: formatCurrency(goalsAnalysis.availableSurplus) },
+    { label: 'Goals Fully Funded', value: goalsAnalysis.isFullyAffordable ? 'Yes' : 'Partially', small: true },
+  ]);
+
+  // Health score breakdown
+  y = ensureSpace(doc, y, 45);
+  y = addDataTable(doc, y, {
+    heading: 'Financial Health Score Breakdown',
+    head: ['Category', 'Score', 'Out of'],
+    rows: Object.values(healthScore.breakdown).map((b) => [b.label, `${b.score}`, `${b.max}`]),
+    aligns: ['left', 'right', 'right'],
+    bold: [1],
+  });
+
+  // Cash flow
+  const totalIncome = (profile.monthlyIncome || 0) + (profile.otherIncome || 0);
+  y = ensureSpace(doc, y, 45);
+  y = addKeyValueTable(doc, y, 'Cash Flow Summary', [
+    { label: 'Monthly Income', value: formatCurrency(totalIncome) },
+    { label: 'Monthly Expenses + EMIs', value: formatCurrency((profile.monthlyExpenses || 0) + (profile.emiPayments || 0)) },
+    { label: 'Monthly Surplus', value: formatCurrency(savings.monthlySavings) },
+    { label: 'Savings Rate', value: `${savings.savingsRate}%` },
+    { label: 'Emergency Fund (Current / Required)', value: `${formatCurrency(emergency.current)} / ${formatCurrency(emergency.required)}` },
+  ]);
+
+  // Goal-by-goal plan. "Status" reflects whether the allocated SIP actually
+  // covers the required SIP (g.affordable) — not g.fundedPercent, which is a
+  // different number (how much is already pre-funded by a lump sum, before
+  // any new SIP). Showing fundedPercent here, right beside Required/Allocated
+  // SIP, reads as if it relates to those two columns when it doesn't — a
+  // clearer "Status" column answers the question those columns actually raise.
+  y = ensureSpace(doc, y, 50);
+  y = addDataTable(doc, y, {
+    heading: 'Goal-by-Goal Plan',
+    head: ['Goal', 'Target (Yrs)', 'Future Value', 'Required SIP', 'Allocated SIP', 'Status'],
+    rows: goalsAnalysis.goals.map((g) => [
+      pdfSafeText(g.label), `${g.yearsToTarget}`, formatCurrency(g.futureValueTarget),
+      `${formatCurrency(g.requiredMonthlySIP)}/mo`, `${formatCurrency(g.allocatedSIP)}/mo`, g.affordable ? 'Fully Funded' : 'Underfunded',
+    ]),
+    aligns: ['left', 'right', 'right', 'right', 'right', 'right'],
+    bold: [0, 2],
+  });
+
+  // Asset allocation + instruments
+  y = ensureSpace(doc, y, 40);
+  y = addStatCards(doc, y, [
+    { label: 'Equity', value: `${overallAllocation.equity}%`, highlight: true },
+    { label: 'Debt', value: `${overallAllocation.debt}%` },
+    { label: 'Gold', value: `${overallAllocation.gold}%` },
+    { label: 'REITs / Other', value: `${overallAllocation.reit}%`, small: true },
+  ]);
+  y = ensureSpace(doc, y, 45);
+  y = addDataTable(doc, y, {
+    heading: 'Illustrative Instruments',
+    head: ['Instrument', 'Category', '% of Portfolio'],
+    rows: instruments.map((i) => [i.name, i.category, `${i.percentOfTotal}%`]),
+    aligns: ['left', 'left', 'right'],
+    bold: [2],
+  });
+
+  // Insurance gap
+  y = ensureSpace(doc, y, 60);
+  y = addKeyValueTable(doc, y, 'Insurance Gap', [
+    { label: 'Life Cover — Human Life Value Method', value: formatCurrency(lifeInsurance.humanLifeValue) },
+    { label: 'Life Cover — Needs-Based Method', value: formatCurrency(lifeInsurance.needBasedCover) },
+    { label: 'Recommended Life Cover', value: formatCurrency(lifeInsurance.recommendedCover) },
+    { label: 'Existing Life Cover', value: formatCurrency(lifeInsurance.existingCover) },
+    { label: 'Life Insurance Gap', value: formatCurrency(lifeInsurance.gap) },
+    { label: 'Recommended Health Cover', value: formatCurrency(healthInsurance.recommendedCover) },
+    { label: 'Existing Health Cover', value: formatCurrency(healthInsurance.existingCover) },
+    { label: 'Health Insurance Gap', value: formatCurrency(healthInsurance.gap) },
+  ]);
+
+  // Tax efficiency — the STCG/LTCG post-tax estimate
+  y = ensureSpace(doc, y, 50);
+  y = addDataTable(doc, y, {
+    heading: 'Tax Efficiency — Post-Tax Corpus by Goal (Estimate)',
+    head: ['Goal', 'Pre-Tax Corpus', 'Est. Tax', 'Post-Tax Corpus', 'Eff. Rate'],
+    rows: goalsTax.rows.map((r) => [
+      pdfSafeText(r.label), formatCurrency(r.preTaxCorpus), formatCurrency(r.tax), formatCurrency(r.postTaxCorpus), `${r.effectiveTaxRate}%`,
+    ]),
+    aligns: ['left', 'right', 'right', 'right', 'right'],
+    colors: { 2: BRAND.red, 3: BRAND.green },
+    bold: [0, 3],
+  });
+
+  if (portfolioTax.rows.some((r) => r.estimated)) {
+    y = ensureSpace(doc, y, 40);
+    y = addKeyValueTable(doc, y, 'Existing Portfolio — Gains Estimate', [
+      { label: 'Current Value', value: formatCurrency(portfolioTax.totals.currentValue) },
+      { label: 'Gains So Far', value: formatCurrency(portfolioTax.totals.gains) },
+      { label: 'If Redeemed Today (Post-Tax)', value: formatCurrency(portfolioTax.totals.postTaxValue) },
+    ]);
+  }
+
+  // Year-by-year combined projection
+  if (projection.projectionData.length) {
+    y = ensureSpace(doc, y, 50);
+    y = addDataTable(doc, y, {
+      heading: 'Combined Wealth Projection (Existing Portfolio + Goal SIPs)',
+      head: ['Year', 'Age', 'Total Invested', 'Projected Corpus', 'Wealth Gained'],
+      rows: projection.projectionData.map((d) => [`Year ${d.year}`, `${d.age}`, formatCurrency(d.invested), formatCurrency(d.corpus), formatCurrency(d.gains)]),
+      aligns: ['left', 'right', 'right', 'right', 'right'],
+      colors: { 4: BRAND.green },
+      bold: [0, 3],
+    });
+  }
+
+  // Action plan
+  y = ensureSpace(doc, y, 50);
+  y = addDataTable(doc, y, {
+    heading: 'Action Plan',
+    head: ['Priority', 'Action', 'Details'],
+    rows: actions.map((a) => [a.priority.charAt(0).toUpperCase() + a.priority.slice(1), pdfSafeText(a.title), pdfSafeText(a.description)]),
+    aligns: ['left', 'left', 'left'],
+    bold: [1],
+  });
+
+  // Assumptions & disclaimer — deliberately the last section, and a table (like
+  // every section above it), so its own didDrawPage stamps the final footer.
+  y = ensureSpace(doc, y, 60);
+  addKeyValueTable(doc, y, 'Key Assumptions & Disclaimer', [
+    { label: 'Inflation Assumption', value: '6% p.a.' },
+    { label: 'Risk Profile', value: (profile.riskProfile || 'moderate').replace(/^\w/, (c) => c.toUpperCase()) },
+    { label: 'Illustrative Return Assumptions', value: 'Equity 12% · Debt 7.5% · Gold 8.5% · REIT 9% p.a.' },
+    { label: 'Tax Basis', value: 'FY 2025-26 capital gains rules (estimate only, not tax advice)' },
+    { label: 'Disclaimer', value: 'Educational estimate only, not investment, insurance or tax advice. Vitta is not SEBI-registered as an Investment Adviser or Research Analyst.' },
+  ]);
+
+  saveDoc(doc, 'Financial-Blueprint', forName);
 }

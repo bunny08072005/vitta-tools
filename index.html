@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Set the theme before first paint so there's no flash of the wrong
+         theme while React loads. Light is the default for first-time
+         visitors; a saved choice (from the navbar toggle) always wins. -->
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('vitta-theme') || 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
